@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import background from './assets/pozadina.jpg';
 import muzika from './assets/muzika.mp3';
 
-const countdownTarget = new Date('2025-06-28T15:00:00').getTime(); // datum žurke
+const countdownTarget = new Date('2025-06-28T15:00:00').getTime();
 
 function App() {
   const [timeLeft, setTimeLeft] = useState('');
@@ -33,8 +32,7 @@ function App() {
   }, []);
 
   return (
-    <div className='container'>
-      <img src={background} alt='Pozadina' className='background' />
+    <div className='container no-image'>
       <div className='overlay'>
         <h1>🎓 Ljeto na ETF-u 🎶</h1>
         <h2>Počinje za: {timeLeft}</h2>
