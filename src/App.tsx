@@ -3,7 +3,7 @@ import './App.css';
 import background from './assets/pozadina.jpg';
 import muzika from './assets/muzika.mp3';
 
-const countdownTarget = new Date('2025-06-15T14:00:00').getTime(); // datum žurke
+const countdownTarget = new Date('2025-06-28T15:00:00').getTime(); // datum žurke
 
 function App() {
   const [timeLeft, setTimeLeft] = useState('');
@@ -50,13 +50,10 @@ function App() {
             referrerPolicy='no-referrer-when-downgrade'
           ></iframe>
         </div>
-
-        <p>📍 Fakultet u Istočnom Sarajevu</p>
+        <audio loop autoPlay>
+          <source src={muzika} type='audio/mpeg' />
+        </audio>
       </div>
-      <audio controls autoPlay loop>
-        <source src={muzika} type='audio/mpeg' />
-        Tvoj browser ne podržava audio element.
-      </audio>
     </div>
   );
 }
