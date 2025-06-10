@@ -7,9 +7,9 @@ const countdownTarget = new Date('2025-06-28T15:00:00').getTime();
 function App() {
   const [timeLeft, setTimeLeft] = useState('');
   const [audioStarted, setAudioStarted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Countdown timer
     const interval = setInterval(() => {
       const now = new Date().getTime();
       const distance = countdownTarget - now;
@@ -42,22 +42,60 @@ function App() {
       .catch((e) => console.error('Greška pri reprodukciji:', e));
   };
 
+  if (!audioStarted) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+        }}
+      >
+        <button
+          onClick={startAudio}
+          style={{
+            padding: '15px 35px',
+            fontSize: '24px',
+            fontWeight: 'bold',
+            color: '#ff0',
+            backgroundColor: '#000',
+            border: '3px solid #ff0',
+            borderRadius: '30px',
+            boxShadow: '0 0 15px #ff0, 0 0 30px #ff0 inset',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+            transition: 'all 0.3s',
+            fontFamily: '"Courier New", monospace',
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.textShadow = '0 0 10px #ff0';
+            e.target.style.boxShadow = '0 0 25px #ff0, 0 0 40px #ff0 inset';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.textShadow = 'none';
+            e.target.style.boxShadow = '0 0 15px #ff0, 0 0 30px #ff0 inset';
+          }}
+        >
+          KLIKNI ZA INFORMACIJE
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div
-      className='container no-image'
-      onClick={!audioStarted ? startAudio : undefined}
-    >
+    <div className='container no-image'>
+      {loading && (
+        <div className='loader-overlay'>
+          <div className='spinner'></div>
+          <p>Učitavanje mape...</p>
+        </div>
+      )}
+
       <div className='overlay'>
         <h1>🎓 Ljeto na ETF-u 🎶</h1>
         <h2>Počinje za: {timeLeft}</h2>
-        {!audioStarted && (
-          <button
-            onClick={startAudio}
-            style={{ padding: '10px 20px', fontSize: '18px' }}
-          >
-            ▶️ Pusti Muziku
-          </button>
-        )}
+
         <div className='map-container'>
           <iframe
             title='Lokacija žurke'
@@ -68,6 +106,7 @@ function App() {
             allowFullScreen
             loading='lazy'
             referrerPolicy='no-referrer-when-downgrade'
+            onLoad={() => setLoading(false)}
           ></iframe>
         </div>
       </div>
