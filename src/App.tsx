@@ -50,11 +50,14 @@ function App() {
       <div className='overlay'>
         <h1>🎓 Ljeto na ETF-u 🎶</h1>
         <h2>Počinje za: {timeLeft}</h2>
-        {/* {!audioStarted && (
-          <p style={{ color: 'white', cursor: 'pointer' }}>
-            Klikni bilo gdje da pokreneš muziku!
-          </p>
-        )} */}
+        {!audioStarted && (
+          <button
+            onClick={startAudio}
+            style={{ padding: '10px 20px', fontSize: '18px' }}
+          >
+            ▶️ Pusti Muziku
+          </button>
+        )}
         <div className='map-container'>
           <iframe
             title='Lokacija žurke'
