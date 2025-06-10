@@ -6,8 +6,10 @@ const countdownTarget = new Date('2025-06-28T15:00:00').getTime();
 
 function App() {
   const [timeLeft, setTimeLeft] = useState('');
+  const [audioStarted, setAudioStarted] = useState(false);
 
   useEffect(() => {
+    // Countdown timer
     const interval = setInterval(() => {
       const now = new Date().getTime();
       const distance = countdownTarget - now;
@@ -31,15 +33,32 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  const startAudio = () => {
+    const audio = new Audio(muzika);
+    audio.loop = true;
+    audio
+      .play()
+      .then(() => setAudioStarted(true))
+      .catch((e) => console.error('Greška pri reprodukciji:', e));
+  };
+
   return (
-    <div className='container no-image'>
+    <div
+      className='container no-image'
+      onClick={!audioStarted ? startAudio : undefined}
+    >
       <div className='overlay'>
         <h1>🎓 Ljeto na ETF-u 🎶</h1>
         <h2>Počinje za: {timeLeft}</h2>
+        {/* {!audioStarted && (
+          <p style={{ color: 'white', cursor: 'pointer' }}>
+            Klikni bilo gdje da pokreneš muziku!
+          </p>
+        )} */}
         <div className='map-container'>
           <iframe
             title='Lokacija žurke'
-            src='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11337.449899646095!2d18.3745382!3d43.8234798!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDPCsDQ5JzI0LjUiTiAxOMKwMjInMjguMyJF!5e0!3m2!1sen!2sba!4v1718059999999!5m2!1sen!2sba'
+            src='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1069.2879537534502!2d18.374322059347683!3d43.82356537087404!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4758c9b6cf9dbc53%3A0x528ccd6928b807b8!2sFaculty%20of%20Electrical%20Engineering%2C!5e0!3m2!1sen!2sba!4v1749553537532!5m2!1sen!2sba'
             width='100%'
             height='100%'
             style={{ border: 0 }}
@@ -48,9 +67,6 @@ function App() {
             referrerPolicy='no-referrer-when-downgrade'
           ></iframe>
         </div>
-        <audio loop autoPlay>
-          <source src={muzika} type='audio/mpeg' />
-        </audio>
       </div>
     </div>
   );
